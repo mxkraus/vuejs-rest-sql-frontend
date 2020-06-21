@@ -1,0 +1,26 @@
+{
+  "cwd": "/Users/maximiliankraus/Desktop/GIT/DorfApp/vuejs-rest-sql-frontend",
+  "type": [
+    "pwa"
+  ],
+  "name": "DorfApp",
+  "framework": "vue",
+  "template": "tabs",
+  "bundler": "webpack",
+  "cssPreProcessor": "scss",
+  "theming": {
+    "customColor": true,
+    "color": "#26bf2c",
+    "darkTheme": false,
+    "iconFonts": true,
+    "fillBars": false
+  },
+  "customBuild": false,
+  "webpack": {
+    "developmentSourceMap": true,
+    "productionSourceMap": true,
+    "hashAssets": false,
+    "preserveAssetsPaths": false,
+    "inlineAssets": true
+  }
+}
