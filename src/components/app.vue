@@ -11,18 +11,6 @@
     </f7-view>
   </f7-panel>
 
-
-  <!-- Right panel with reveal effect-->
-  <!-- <f7-panel right reveal theme-dark>
-    <f7-view>
-      <f7-page>
-        <f7-navbar title="Right Panel"></f7-navbar>
-        <f7-block>Right panel content goes here</f7-block>
-      </f7-page>
-    </f7-view>
-  </f7-panel> -->
-
-
   <!-- Views/Tabs container -->
   <f7-views tabs class="safe-areas">
     <!-- Tabbar for switching views-tabs -->
@@ -97,7 +85,6 @@
 <script>
 
   const axios = require("axios");
-
   import routes from '../js/routes.js';
 
   export default {

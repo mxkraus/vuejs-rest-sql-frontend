@@ -1,16 +1,25 @@
 <template>
   <f7-page name="home">
     <!-- Top Navbar -->
-    <f7-navbar large :sliding="false">
+    <f7-navbar :sliding="false">
       <f7-nav-left>
         <f7-link icon-ios="f7:menu" icon-aurora="f7:menu" icon-md="material:menu" panel-open="left"></f7-link>
       </f7-nav-left>
-      <f7-nav-title sliding>DorfApp</f7-nav-title>
+      <f7-nav-title>Störnstein</f7-nav-title>
       <f7-nav-right>
-        <f7-link icon-ios="f7:menu" icon-aurora="f7:menu" icon-md="material:menu" panel-open="right"></f7-link>
+        <f7-link
+          icon-ios="f7:menu"
+          icon-aurora="f7:menu"
+          icon-md="material:menu"
+          panel-open="right"
+        ></f7-link>
       </f7-nav-right>
-      <f7-nav-title-large>DorfApp</f7-nav-title-large>
+      <!-- <f7-nav-title-large>DorfApp</f7-nav-title-large> -->
     </f7-navbar>
+
+    <f7-block>
+      <img :src="f7logo" alt />
+    </f7-block>
 
     <!-- Page content-->
     <f7-block strong>
@@ -53,14 +62,20 @@
         title="Dynamic (Component) Route"
         link="/dynamic-route/blog/45/post/125/?foo=bar#about"
       ></f7-list-item>
-      <f7-list-item
-        title="Default Route (404)"
-        link="/load-something-that-doesnt-exist/"
-      ></f7-list-item>
-      <f7-list-item
-        title="Request Data & Load"
-        link="/request-and-load/user/123456/"
-      ></f7-list-item>
+      <f7-list-item title="Default Route (404)" link="/load-something-that-doesnt-exist/"></f7-list-item>
+      <f7-list-item title="Request Data & Load" link="/request-and-load/user/123456/"></f7-list-item>
     </f7-list>
   </f7-page>
 </template>
+<script>
+// import f7 Logo to tell webpack to cache this asseet
+import f7logo from "../static/icons/128x128.png";
+
+export default {
+  data: function() {
+    return {
+      f7logo: f7logo
+    };
+  }
+};
+</script>
