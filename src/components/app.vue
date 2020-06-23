@@ -1,39 +1,64 @@
 <template>
-  <f7-app :params="f7params" >
+  <f7-app :params="f7params">
+    <!-- Left panel with cover effect-->
+    <f7-panel left reveal theme-dark>
+      <f7-view>
+        <f7-page>
+          <f7-navbar title="Left Panel"></f7-navbar>
+          <f7-block>Left panel content goes here</f7-block>
+        </f7-page>
+      </f7-view>
+    </f7-panel>
 
-  <!-- Left panel with cover effect-->
-  <f7-panel left reveal theme-dark>
-    <f7-view>
-      <f7-page>
-        <f7-navbar title="Left Panel"></f7-navbar>
-        <f7-block>Left panel content goes here</f7-block>
-      </f7-page>
-    </f7-view>
-  </f7-panel>
+    <!-- Views/Tabs container -->
+    <f7-views tabs class="safe-areas">
+      <f7-col width="50">
+        <f7-button fill raised @click="installer()" :style="{'display': installButtonStyle }">App installieren</f7-button>
+      </f7-col>
 
-  <!-- Views/Tabs container -->
-  <f7-views tabs class="safe-areas">
-    <!-- Tabbar for switching views-tabs -->
-    <f7-toolbar tabbar labels bottom>
-      <f7-link tab-link="#view-events" tab-link-active icon-ios="f7:calendar" icon-aurora="f7:calendar" icon-md="material:event" text="Kalender"></f7-link>
-      <f7-link tab-link="#view-catalog" icon-ios="f7:square_list_fill" icon-aurora="f7:square_list_fill" icon-md="material:view_list" text="Catalog"></f7-link>
-      <f7-link tab-link="#view-settings" icon-ios="f7:gear" icon-aurora="f7:gear" icon-md="material:settings" text="Settings"></f7-link>
-    </f7-toolbar>
+      <!-- Tabbar for switching views-tabs -->
+      <f7-toolbar tabbar labels bottom>
+        <f7-link
+          tab-link="#view-events"
+          tab-link-active
+          icon-ios="f7:calendar"
+          icon-aurora="f7:calendar"
+          icon-md="material:event"
+          text="Kalender"
+        ></f7-link>
+        <f7-link
+          tab-link="#view-catalog"
+          icon-ios="f7:square_list_fill"
+          icon-aurora="f7:square_list_fill"
+          icon-md="material:view_list"
+          text="Catalog"
+        ></f7-link>
+        <f7-link
+          tab-link="#view-settings"
+          icon-ios="f7:gear"
+          icon-aurora="f7:gear"
+          icon-md="material:settings"
+          text="Settings"
+        ></f7-link>
+      </f7-toolbar>
 
-    <!-- Your main view/tab, should have "view-main" class. It also has "tab-active" class -->
-    <f7-view id="view-events" main tab tab-active url="/"></f7-view>
+      <!-- Your main view/tab, should have "view-main" class. It also has "tab-active" class -->
+      <f7-view id="view-events" main tab tab-active url="/"></f7-view>
 
-    <!-- Catalog View -->
-    <f7-view id="view-catalog" name="catalog" tab url="/catalog/"></f7-view>
+      <!-- Catalog View -->
+      <f7-view id="view-catalog" name="catalog" tab url="/catalog/"></f7-view>
 
-    <!-- Settings View -->
-    <f7-view id="view-settings" name="settings" tab url="/settings/"></f7-view>
+      <!-- Settings View -->
+      <f7-view
+        id="view-settings"
+        name="settings"
+        tab
+        url="/settings/"
+      ></f7-view>
 
-    <!-- Login View -->
-    <f7-view id="view-login" name="login" tab url="/login/"></f7-view>
-
-  </f7-views>
-
+      <!-- Login View -->
+      <f7-view id="view-login" name="login" tab url="/login/"></f7-view>
+    </f7-views>
 
     <!-- Popup -->
     <f7-popup id="my-popup">
@@ -72,9 +97,13 @@
             ></f7-list-input>
           </f7-list>
           <f7-list>
-            <f7-list-button title="Sign In" @click="alertLoginData"></f7-list-button>
+            <f7-list-button
+              title="Sign In"
+              @click="alertLoginData"
+            ></f7-list-button>
             <f7-block-footer>
-              Some text about login information.<br>Click "Sign In" to close Login Screen
+              Some text about login information.<br />Click "Sign In" to close
+              Login Screen
             </f7-block-footer>
           </f7-list>
         </f7-page>
@@ -83,70 +112,99 @@
   </f7-app>
 </template>
 <script>
+const axios = require("axios");
+import routes from "../js/routes.js";
 
-  const axios = require("axios");
-  import routes from '../js/routes.js';
-
-  export default {
-    data() {
-      return {
-        // Framework7 Parameters
-        f7params: {
-          name: 'DorfApp', // App name
-          theme: 'auto', // Automatic theme detection
-          axios: axios,
-          calendar: {
-            url: 'calendar/',
-            dateFormat: 'dd.mm.yyyy',
-          },
-          // App root data
-          data: function () {
-            return {
-              events: [],
-              products: [
-                {
-                  id: '1',
-                  title: 'Apple iPhone 8',
-                  description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi tempora similique reiciendis, error nesciunt vero, blanditiis pariatur dolor, minima sed sapiente rerum, dolorem corrupti hic modi praesentium unde saepe perspiciatis.'
-                },
-                {
-                  id: '2',
-                  title: 'Apple iPhone 8 Plus',
-                  description: 'Velit odit autem modi saepe ratione totam minus, aperiam, labore quia provident temporibus quasi est ut aliquid blanditiis beatae suscipit odio vel! Nostrum porro sunt sint eveniet maiores, dolorem itaque!'
-                },
-                {
-                  id: '3',
-                  title: 'Apple iPhone X',
-                  description: 'Expedita sequi perferendis quod illum pariatur aliquam, alias laboriosam! Vero blanditiis placeat, mollitia necessitatibus reprehenderit. Labore dolores amet quos, accusamus earum asperiores officiis assumenda optio architecto quia neque, quae eum.'
-                },
-              ]
-            };
-          },
-
-          // App routes
-          routes: routes,
-          // Register service worker
-          serviceWorker: {
-            path: '/service-worker.js',
-          },
+export default {
+  data() {
+    return {
+      // Framework7 Parameters
+      f7params: {
+        name: "DorfApp", // App name
+        theme: "auto", // Automatic theme detection
+        axios: axios,
+        calendar: {
+          url: "calendar/",
+          dateFormat: "dd.mm.yyyy",
         },
-        // Login screen data
-        username: '',
-        password: '',
-      }
-    },
-    methods: {
-      alertLoginData() {
-        this.$f7.dialog.alert('Username: ' + this.username + '<br>Password: ' + this.password, () => {
-          this.$f7.loginScreen.close();
-        });
-      }
-    },
-    mounted() {
-      this.$f7ready((f7) => {
+        // App root data
+        data: function() {
+          return {
+            events: [],
+            products: [
+              {
+                id: "1",
+                title: "Apple iPhone 8",
+                description:
+                  "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi tempora similique reiciendis, error nesciunt vero, blanditiis pariatur dolor, minima sed sapiente rerum, dolorem corrupti hic modi praesentium unde saepe perspiciatis.",
+              },
+              {
+                id: "2",
+                title: "Apple iPhone 8 Plus",
+                description:
+                  "Velit odit autem modi saepe ratione totam minus, aperiam, labore quia provident temporibus quasi est ut aliquid blanditiis beatae suscipit odio vel! Nostrum porro sunt sint eveniet maiores, dolorem itaque!",
+              },
+              {
+                id: "3",
+                title: "Apple iPhone X",
+                description:
+                  "Expedita sequi perferendis quod illum pariatur aliquam, alias laboriosam! Vero blanditiis placeat, mollitia necessitatibus reprehenderit. Labore dolores amet quos, accusamus earum asperiores officiis assumenda optio architecto quia neque, quae eum.",
+              },
+            ],
+          };
+        },
 
-        // Call F7 APIs here
+        // App routes
+        routes: routes,
+        // Register service worker
+        serviceWorker: {
+          path: "/service-worker.js",
+        },
+      },
+      // Login screen data
+      username: "",
+      password: "",
+      installButtonStyle: 'none',
+    };
+  },
+  methods: {
+    alertLoginData() {
+      this.$f7.dialog.alert(
+        "Username: " + this.username + "<br>Password: " + this.password,
+        () => {
+          this.$f7.loginScreen.close();
+        }
+      );
+    },
+  },
+  mounted() {
+    this.$f7ready((f7) => {
+
+      // Call F7 APIs here
+
+      let installPrompt;
+
+      window.addEventListener('beforeinstallprompt', e => {
+        e.preventDefault();
+        installPrompt = e;
+        this.installButtonStyle = "block";
       });
-    }
-  }
+
+      this.installer = () => {
+        this.installButtonStyle = "none";
+        installPrompt.prompt();
+        installPrompt.userChoice
+          .then( res => {
+            if(res.outcome === "accepted"){
+              console.log("User accepted");
+            }else{
+              console.log("User denied");
+            }
+            installPrompt = null;
+          });
+      }
+
+    });
+  },
+};
 </script>
