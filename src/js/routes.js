@@ -7,7 +7,8 @@ import CatalogPage from '../pages/catalog.vue';
 import ProductPage from '../pages/product.vue';
 import EventPage from '../pages/event.vue';
 import SettingsPage from '../pages/settings.vue';
-import LoginPage from '../pages/login.vue';
+import AddEventPage from '../pages/user/addEvent.vue';
+
 
 import DynamicRoutePage from '../pages/dynamic-route.vue';
 import RequestAndLoad from '../pages/request-and-load.vue';
@@ -21,10 +22,6 @@ var routes = [
   {
     path: '/event/:id/',
     component: EventPage,
-  },
-  {
-    path: '/login/',
-    component: LoginPage,
   },
   {
     path: '/about/',
@@ -46,10 +43,13 @@ var routes = [
     path: '/settings/',
     component: SettingsPage,
   },
-
   {
     path: '/dynamic-route/blog/:blogId/post/:postId/',
     component: DynamicRoutePage,
+  },
+  {
+    path: '/add-event/',
+    component: AddEventPage,
   },
   {
     path: '/request-and-load/user/:userId/',

@@ -13,7 +13,7 @@
     <!-- Views/Tabs container -->
     <f7-views tabs class="safe-areas">
       <f7-col width="50">
-        <f7-button fill raised @click="installer()" :style="{'display': installButtonStyle }">App installieren</f7-button>
+        <f7-button id="installBtn" fill raised @click="installer()" :style="{'display': installButtonStyle }">App installieren</f7-button>
       </f7-col>
 
       <!-- Tabbar for switching views-tabs -->
@@ -131,6 +131,7 @@ export default {
         data: function() {
           return {
             events: [],
+            msg: "das ist eine Debug-Nachricht!!!",
             products: [
               {
                 id: "1",
@@ -153,7 +154,6 @@ export default {
             ],
           };
         },
-
         // App routes
         routes: routes,
         // Register service worker
@@ -180,8 +180,9 @@ export default {
   mounted() {
     this.$f7ready((f7) => {
 
-      // Call F7 APIs here
+        console.log(this.$f7);
 
+      // Call F7 APIs here
       let installPrompt;
 
       window.addEventListener('beforeinstallprompt', e => {
@@ -208,3 +209,9 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+#installBtn{
+  border-radius: 0 !important;
+  background-color: #29a02d;
+}
+</style>
