@@ -1,6 +1,7 @@
 
 import HomePage from '../pages/home.vue';
 import CalendarPage from '../pages/calendar.vue';
+import OrgsPage from '../pages/organisations.vue';
 import AboutPage from '../pages/about.vue';
 import FormPage from '../pages/form.vue';
 import CatalogPage from '../pages/catalog.vue';
@@ -17,6 +18,10 @@ import NotFoundPage from '../pages/404.vue';
 var routes = [
   {
     path: '/',
+    component: HomePage,
+  },
+  {
+    path: '/events/',
     component: CalendarPage,
   },
   {
@@ -32,8 +37,8 @@ var routes = [
     component: FormPage,
   },
   {
-    path: '/catalog/',
-    component: HomePage,
+    path: '/organisations/',
+    component: OrgsPage,
   },
   {
     path: '/product/:id/',

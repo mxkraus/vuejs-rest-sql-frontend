@@ -13,25 +13,32 @@
     <!-- Views/Tabs container -->
     <f7-views tabs class="safe-areas">
       <f7-col width="50">
-        <f7-button id="installBtn" fill raised @click="installer()" :style="{'display': installButtonStyle }">App installieren</f7-button>
+        <f7-button
+          id="installBtn"
+          fill
+          raised
+          @click="installer()"
+          :style="{ display: installButtonStyle }"
+          >App installieren</f7-button
+        >
       </f7-col>
 
       <!-- Tabbar for switching views-tabs -->
       <f7-toolbar tabbar labels bottom>
         <f7-link
-          tab-link="#view-events"
+          tab-link="#view-catalog"
           tab-link-active
-          icon-ios="f7:calendar"
-          icon-aurora="f7:calendar"
-          icon-md="material:event"
-          text="Kalender"
+          icon-ios="f7:home"
+          icon-aurora="f7:home"
+          icon-md="material:home"
+          text="Home"
         ></f7-link>
         <f7-link
-          tab-link="#view-catalog"
-          icon-ios="f7:square_list_fill"
-          icon-aurora="f7:square_list_fill"
-          icon-md="material:view_list"
-          text="Catalog"
+          tab-link="#view-events"
+          icon-ios="f7:event"
+          icon-aurora="f7:event"
+          icon-md="material:event"
+          text="Kalender"
         ></f7-link>
         <f7-link
           tab-link="#view-settings"
@@ -42,22 +49,16 @@
         ></f7-link>
       </f7-toolbar>
 
-      <!-- Your main view/tab, should have "view-main" class. It also has "tab-active" class -->
-      <f7-view id="view-events" main tab tab-active url="/"></f7-view>
 
       <!-- Catalog View -->
-      <f7-view id="view-catalog" name="catalog" tab url="/catalog/"></f7-view>
+      <f7-view id="view-catalog" name="catalog" tab url="/"></f7-view>
+
+      <!-- Your main view/tab, should have "view-main" class. It also has "tab-active" class -->
+      <f7-view id="view-events" main tab tab-active url="/events/"></f7-view>
 
       <!-- Settings View -->
-      <f7-view
-        id="view-settings"
-        name="settings"
-        tab
-        url="/settings/"
-      ></f7-view>
+      <f7-view id="view-settings" name="settings"  tab url="/settings/" ></f7-view>
 
-      <!-- Login View -->
-      <f7-view id="view-login" name="login" tab url="/login/"></f7-view>
     </f7-views>
 
     <!-- Popup -->
@@ -82,11 +83,12 @@
           <f7-login-screen-title>Login</f7-login-screen-title>
           <f7-list form>
             <f7-list-input
-              type="text"
-              name="username"
-              placeholder="Your username"
-              :value="username"
-              @input="username = $event.target.value"
+              type="email"
+              name="email"
+              placeholder="Your email"
+              :value="email"
+              @input="email = $event.target.value"
+              required
             ></f7-list-input>
             <f7-list-input
               type="password"
@@ -94,12 +96,13 @@
               placeholder="Your password"
               :value="password"
               @input="password = $event.target.value"
+              required
             ></f7-list-input>
           </f7-list>
           <f7-list>
             <f7-list-button
               title="Sign In"
-              @click="alertLoginData"
+              @click="login"
             ></f7-list-button>
             <f7-block-footer>
               Some text about login information.<br />Click "Sign In" to close
@@ -113,11 +116,13 @@
 </template>
 <script>
 const axios = require("axios");
-import routes from "../js/routes.js";
+//import routes from "../js/routes.js";
 
 export default {
   data() {
     return {
+      email: '',
+      password: '',
       // Framework7 Parameters
       f7params: {
         name: "DorfApp", // App name
@@ -155,37 +160,45 @@ export default {
           };
         },
         // App routes
-        routes: routes,
+        routes: this.$routes,
+        installButtonStyle: "none",
         // Register service worker
         serviceWorker: {
           path: "/service-worker.js",
         },
       },
-      // Login screen data
-      username: "",
-      password: "",
-      installButtonStyle: 'none',
     };
   },
-  methods: {
-    alertLoginData() {
-      this.$f7.dialog.alert(
-        "Username: " + this.username + "<br>Password: " + this.password,
-        () => {
-          this.$f7.loginScreen.close();
-        }
-      );
-    },
+  methods: { 
+    login: function () {
+
+        const self = this;
+        const app = self.$f7;
+
+        let email = self.email
+        let password = self.password
+        
+        this.$store.dispatch('login', { email, password })
+
+      .then(() => {
+        app.loginScreen.close();
+      })
+      .catch(err => {
+        console.log(err.text);
+        app.dialog.alert('Login fehlgeschlagen.', () => {
+          app.loginScreen.close();
+        });
+      })
+    }
   },
   mounted() {
     this.$f7ready((f7) => {
-
-        console.log(this.$f7);
+      console.log(this.$f7);
 
       // Call F7 APIs here
       let installPrompt;
 
-      window.addEventListener('beforeinstallprompt', e => {
+      window.addEventListener("beforeinstallprompt", (e) => {
         e.preventDefault();
         installPrompt = e;
         this.installButtonStyle = "block";
@@ -194,23 +207,21 @@ export default {
       this.installer = () => {
         this.installButtonStyle = "none";
         installPrompt.prompt();
-        installPrompt.userChoice
-          .then( res => {
-            if(res.outcome === "accepted"){
-              console.log("User accepted");
-            }else{
-              console.log("User denied");
-            }
-            installPrompt = null;
-          });
-      }
-
+        installPrompt.userChoice.then((res) => {
+          if (res.outcome === "accepted") {
+            console.log("User accepted");
+          } else {
+            console.log("User denied");
+          }
+          installPrompt = null;
+        });
+      };
     });
   },
 };
 </script>
 <style lang="scss">
-#installBtn{
+#installBtn {
   border-radius: 0 !important;
   background-color: #29a02d;
 }

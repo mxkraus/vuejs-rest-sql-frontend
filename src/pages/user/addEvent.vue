@@ -68,6 +68,9 @@ export default {
       organisations: []
     };
   },
+  computed : {
+    token : function(){ return this.$store.getters.authToken}
+  },
   mounted() {},
   async created() {
     try {
@@ -79,37 +82,26 @@ export default {
     }
   },
   methods: {
+    
     async eventFormSubmit() {
       var formData = this.$f7.form.convertToData("#my-form");
-
-      const options = {
-        headers: {
-          Authorization:
-            "Bearer XY"
-        }
-      };
-
-      try {
-        const res = await axios.post(
-          "http://localhost:3000/event",
-          formData,
-          options
-        );
-
-        if (res.status == 201) {
-          this.$f7.dialog.alert("Neuer Termin wurd erstellt.", () => {
-            const prev = this.$f7router.previousRoute.url;
-            this.$f7router.back(prev, {
-              ignoreCache: true,
-              force: true,
-              context: {}
-            });
+      this.$http.defaults.headers.common['Authorization'] = 'Bearer ' + this.token;
+      const res = await this.$http.post(
+        "http://localhost:3000/event",
+        formData
+      );
+      if (res.status == 201) {
+        this.$f7.dialog.alert("Neuer Termin wurd erstellt.", () => {
+          const prev = this.$f7router.previousRoute.url;
+          this.$f7router.back(prev, {
+            ignoreCache: true,
+            force: true,
+            context: {}
           });
-        }
-      } catch (e) {
-        console.log(e);
+        });
       }
     }
+
   }
 };
 </script>
